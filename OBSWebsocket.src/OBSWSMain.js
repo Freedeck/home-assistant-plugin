@@ -1,20 +1,20 @@
 const path = require("path");
 const Plugin = require(path.resolve('./src/classes/Plugin'));
 
-class HAFreedeck extends Plugin {
+class OBSWebsocket extends Plugin {
     statesToTrack = ['my.room.temperature'];
     token = '';
     url = 'http://localhost:8123/';
     constructor() {
         // With JS Hooks, you must keep the ID of your plugin the name of the source folder.
-        super('Home Assistant: Freedeckified', 'Freedeck', 'HAFreedeck', false);
+        super('OBS Websocket', 'Freedeck', 'OBSWebsocket', false);
     }
 
     onInitialize () {
-        console.log('Initialized HAF.')
-        this.setJSServerHook("haf/server.js");
-        this.setJSClientHook("haf/client.js");
-        this.setJSSocketHook("haf/socket.js");
+        console.log('Initialized OBSWS.')
+        this.setJSServerHook("obsws/server.js");
+        this.setJSClientHook("obsws/client.js");
+        this.setJSSocketHook("obsws/socket.js");
         
         const token = this.getFromSaveData("token");
         if(token == undefined || token == "") {
@@ -81,6 +81,6 @@ class HAFreedeck extends Plugin {
 }
 
 module.exports = {
-	exec: () => new HAFreedeck(),
- 	class: HAFreedeck
+	exec: () => new OBSWebsocket(),
+ 	class: OBSWebsocket
 }
