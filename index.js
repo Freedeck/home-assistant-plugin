@@ -8,7 +8,7 @@ const path = require('node:path');
  * - Edit the FDE_Settings object below to configure your environment.
  */
 
-let name = 'OBSWebSocket'
+let name = 'HAFreedeck'
 let bundleName = name + '.Freedeck'
 
 const FDE_Settings = {
