@@ -8,7 +8,7 @@ class HAF extends Plugin {
     constructor() {
         // With JS Hooks, you must keep the ID of your plugin the name of the source folder.
         super('Home Assistant Freedeck', 'Freedeck', 'HAFreedeck', false);
-        this.version = '1.0.1';
+        this.version = '1.0.2';
     }
 
     onInitialize () {
