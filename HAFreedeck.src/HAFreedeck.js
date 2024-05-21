@@ -8,7 +8,7 @@ class HAF extends Plugin {
     constructor() {
         // With JS Hooks, you must keep the ID of your plugin the name of the source folder.
         super('Home Assistant Freedeck', 'Freedeck', 'HAFreedeck', false);
-        this.version = '1.0.2';
+        this.version = '1.1.0';
     }
 
     onInitialize () {
@@ -74,6 +74,8 @@ class HAF extends Plugin {
                     wanted: data.entity_id,
                     state: data.attributes.friendly_name +": " + data.state + data.attributes.unit_of_measurement
                 })
+            }).catch((err) => {
+                console.log('Failed to query state ' + state, err);
             });
         })
     }
