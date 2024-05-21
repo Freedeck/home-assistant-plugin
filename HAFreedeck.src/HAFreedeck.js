@@ -8,7 +8,7 @@ class HAF extends Plugin {
     constructor() {
         // With JS Hooks, you must keep the ID of your plugin the name of the source folder.
         super('Home Assistant Freedeck', 'Freedeck', 'HAFreedeck', false);
-        this.version = '1.1.0';
+        this.version = '1.2.0';
     }
 
     onInitialize () {
@@ -35,6 +35,12 @@ class HAF extends Plugin {
             this.setToSaveData('statesToTrack', ['my.room.temperature']);
             return false;
         }
+        let isSilent = this.getFromSaveData('silent');
+        if(isSilent == undefined || isSilent == '') {
+            console.log('No saved data found for silent mode, enabling.');
+            this.setToSaveData('silent', true);
+            isSilent = true;
+        }
 
         console.log('Connecting to Home Assistant...')
         fetch(url+"api/", {
@@ -56,13 +62,13 @@ class HAF extends Plugin {
         // This is all you need to do. Freedeck will do all of the logic for you.
         
         setInterval(() => {
-            this.stateLoop(token, url, statesToTrack);
+            this.stateLoop(token, url, statesToTrack, isSilent);
         }, this.getFromSaveData("updateInterval") || 1000);
         
         return true;
     }
 
-    stateLoop(t, u ,s) {
+    stateLoop(t, u, s, i) {
         s.forEach(state => {
             fetch(u+"api/states/" + state, {
                 headers: {
@@ -75,7 +81,7 @@ class HAF extends Plugin {
                     state: data.attributes.friendly_name +": " + data.state + data.attributes.unit_of_measurement
                 })
             }).catch((err) => {
-                console.log('Failed to query state ' + state, err);
+                if (!i) console.log('Failed to query state ' + state, err);
             });
         })
     }
